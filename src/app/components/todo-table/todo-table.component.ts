@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { TodoTableDataSource, TodoTableItem } from './todo-table-datasource';
+import { TodoTableDataSource, ITodo } from './todo-table-datasource';
 
 @Component({
   selector: 'ac-todo-table',
@@ -12,11 +12,11 @@ import { TodoTableDataSource, TodoTableItem } from './todo-table-datasource';
 export class TodoTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<TodoTableItem>;
+  @ViewChild(MatTable) table!: MatTable<ITodo>;
   dataSource: TodoTableDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['id', 'title','completed'];
 
   constructor() {
     this.dataSource = new TodoTableDataSource();

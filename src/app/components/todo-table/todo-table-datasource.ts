@@ -5,33 +5,19 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 
 // TODO: Replace this with your own data model type
-export interface TodoTableItem {
-  name: string;
-  id: number;
+export interface ITodo {
+  id:string;
+  title: string;
+  completed: boolean;
 }
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: TodoTableItem[] = [
-  {id: 1, name: 'Hydrogen'},
-  {id: 2, name: 'Helium'},
-  {id: 3, name: 'Lithium'},
-  {id: 4, name: 'Beryllium'},
-  {id: 5, name: 'Boron'},
-  {id: 6, name: 'Carbon'},
-  {id: 7, name: 'Nitrogen'},
-  {id: 8, name: 'Oxygen'},
-  {id: 9, name: 'Fluorine'},
-  {id: 10, name: 'Neon'},
-  {id: 11, name: 'Sodium'},
-  {id: 12, name: 'Magnesium'},
-  {id: 13, name: 'Aluminum'},
-  {id: 14, name: 'Silicon'},
-  {id: 15, name: 'Phosphorus'},
-  {id: 16, name: 'Sulfur'},
-  {id: 17, name: 'Chlorine'},
-  {id: 18, name: 'Argon'},
-  {id: 19, name: 'Potassium'},
-  {id: 20, name: 'Calcium'},
+const EXAMPLE_DATA: ITodo[] = [
+  {id: '1', title: 'Hydrogen', completed: true},
+  {id: '2', title: 'Hydrogen', completed: true},
+  {id: '3', title: 'Hydrogen', completed: true},
+  {id: '4', title: 'Hydrogen', completed: true},
+  {id: '5', title: 'Hydrogen', completed: true},
 ];
 
 /**
@@ -39,8 +25,8 @@ const EXAMPLE_DATA: TodoTableItem[] = [
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class TodoTableDataSource extends DataSource<TodoTableItem> {
-  data: TodoTableItem[] = EXAMPLE_DATA;
+export class TodoTableDataSource extends DataSource<ITodo> {
+  data: ITodo[] = EXAMPLE_DATA;
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
@@ -53,7 +39,7 @@ export class TodoTableDataSource extends DataSource<TodoTableItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<TodoTableItem[]> {
+  connect(): Observable<ITodo[]> {
     if (this.paginator && this.sort) {
       // Combine everything that affects the rendered data into one update
       // stream for the data-table to consume.
@@ -76,7 +62,7 @@ export class TodoTableDataSource extends DataSource<TodoTableItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: TodoTableItem[]): TodoTableItem[] {
+  private getPagedData(data: ITodo[]): ITodo[] {
     if (this.paginator) {
       const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
       return data.splice(startIndex, this.paginator.pageSize);
@@ -89,7 +75,7 @@ export class TodoTableDataSource extends DataSource<TodoTableItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: TodoTableItem[]): TodoTableItem[] {
+  private getSortedData(data: ITodo[]): ITodo[] {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
     }
@@ -97,8 +83,9 @@ export class TodoTableDataSource extends DataSource<TodoTableItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
       switch (this.sort?.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
+        case 'title': return compare(a.title, b.title, isAsc);
         case 'id': return compare(+a.id, +b.id, isAsc);
+        case 'completed': return compare(+a.completed, +b.completed, isAsc);
         default: return 0;
       }
     });
