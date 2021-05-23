@@ -2,7 +2,8 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { TodoTableDataSource, ITodo } from './todo-table-datasource';
+import { TodoTableDataSource } from './todo-table-datasource';
+import {ITodo} from "../../models/todo";
 
 @Component({
   selector: 'ac-todo-table',

@@ -3,13 +3,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
+import {ITodo} from "../../models/todo";
 
 // TODO: Replace this with your own data model type
-export interface ITodo {
-  id:string;
-  title: string;
-  completed: boolean;
-}
+// export interface ITodo {
+//   id:string;
+//   title: string;
+//   completed: boolean;
+// }
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: ITodo[] = [
@@ -26,6 +27,7 @@ const EXAMPLE_DATA: ITodo[] = [
  * (including sorting, pagination, and filtering).
  */
 export class TodoTableDataSource extends DataSource<ITodo> {
+
   data: ITodo[] = EXAMPLE_DATA;
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
