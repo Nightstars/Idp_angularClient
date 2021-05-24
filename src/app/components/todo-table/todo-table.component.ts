@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { TodoTableDataSource } from './todo-table-datasource';
 import {ITodo} from "../../models/todo";
+import {TodoService} from "../../services/todo.service";
 
 @Component({
   selector: 'ac-todo-table',
@@ -19,8 +20,8 @@ export class TodoTableComponent implements AfterViewInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'title','completed'];
 
-  constructor() {
-    this.dataSource = new TodoTableDataSource();
+  constructor(private todoservice: TodoService) {
+    this.dataSource = new TodoTableDataSource(todoservice);
   }
 
   ngAfterViewInit(): void {

@@ -4,36 +4,26 @@ import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import {ITodo} from "../../models/todo";
-
-// TODO: Replace this with your own data model type
-// export interface ITodo {
-//   id:string;
-//   title: string;
-//   completed: boolean;
-// }
+import {TodoService} from "../../services/todo.service";
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: ITodo[] = [
-  {id: '1', title: 'Hydrogen', completed: true},
-  {id: '2', title: 'Hydrogen', completed: true},
-  {id: '3', title: 'Hydrogen', completed: true},
-  {id: '4', title: 'Hydrogen', completed: true},
-  {id: '5', title: 'Hydrogen', completed: true},
-];
-
+let _todos: ITodo[]=[];
 /**
  * Data source for the TodoTable view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
 export class TodoTableDataSource extends DataSource<ITodo> {
-
-  data: ITodo[] = EXAMPLE_DATA;
+  data: ITodo[] = _todos;
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
-  constructor() {
+  constructor(private todoService: TodoService) {
     super();
+    todoService.getAllTodos().subscribe(todos=>{
+      _todos=todos;
+      console .log(_todos);
+    });
   }
 
   /**
