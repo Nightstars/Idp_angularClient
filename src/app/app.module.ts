@@ -19,13 +19,16 @@ import { TodoTableComponent } from './components/todo-table/todo-table.component
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddTodoComponent } from './components/add-todo/add-todo.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { SigninOidcComponent } from './oidc/signin-oidc/signin-oidc.component';
+import { RedirectSilentRenewComponent } from './oidc/redirect-silent-renew/redirect-silent-renew.component';
+import {AuthorizationHeaderInterceptor} from "./oidc/authorization-header.interceptor";
 
 @NgModule({
   declarations: [
@@ -33,7 +36,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     NavbarComponent,
     DashboardComponent,
     TodoTableComponent,
-    AddTodoComponent
+    AddTodoComponent,
+    SigninOidcComponent,
+    RedirectSilentRenewComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +63,13 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     ReactiveFormsModule,
     MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizationHeaderInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
